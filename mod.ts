@@ -9,7 +9,7 @@ if (!room) {
 const getInfo = async () => {
   const resp = await fetch(`https://open.douyucdn.cn/api/RoomApi/room/${room}`);
   const arr = await resp.json();
-  const isOnline = arr.data.online == 1;
+  const isOnline = arr.data.room_status == 1;
   const owner = arr.data.owner_name;
   return { owner, isOnline };
 };
@@ -18,10 +18,11 @@ console.log(`You are monitoring ${firstInfo.owner}'s room`);
 if (!firstInfo.isOnline) {
   console.log(`You will be notified as it become online$`);
   setInterval(async () => {
-    const info = await getInfo();
-    if (info.isOnline) {
-      console.log(`${info.owner} is online now`);
+    const { isOnline, owner } = await getInfo();
+    if (isOnline) {
+      console.log(`${owner} is online now`);
       Deno.exit(0);
     }
   }, interval);
 }
+console.log(`${firstInfo.owner} is online now`);
