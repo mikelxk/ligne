@@ -23,5 +23,5 @@ if (!firstInfo.isOnline) {
       console.log(`${info.owner} is online now`);
       Deno.exit(0);
     }
-  });
+  }, interval);
 }
